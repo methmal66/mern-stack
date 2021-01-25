@@ -2,9 +2,7 @@ version: "3.7"
 
 services:
   client:
-    image: mern-client-image
-    container_name: mern-client
-    restart: always
+    build: ./client
     depends_on:
       - server
     ports:
@@ -12,15 +10,8 @@ services:
     networks:
       - app-network
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    image: mern-server-image
-    container_name: mern-server
-    command: /usr/src/app/node_modules/.bin/nodemon server.js
-    volumes:
-      - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
+    build: ./server
+    command: node /usr/dist/bundle.js
     ports:
       - "5000:5000"
     depends_on:
